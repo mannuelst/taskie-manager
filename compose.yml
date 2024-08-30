@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: zelvy_db
+    environment:
+      POSTGRES_DB: zelvy
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - zelvy_network
+
+volumes:
+  postgres_data:
+
+networks:
+  zelvy_network:
