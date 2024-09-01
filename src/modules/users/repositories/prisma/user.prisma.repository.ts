@@ -20,9 +20,15 @@ export class UserPrismaRepository implements UserRepository {
       },
     });
   }
+
   async save(data: CreateUserDTO): Promise<UserCreatedDTO> {
     return await this.prisma.user.create({
       data,
+    });
+  }
+  async findByUsername(username: string): Promise<UserCreatedDTO | null> {
+    return await this.prisma.user.findUnique({
+      where: { username },
     });
   }
 }
