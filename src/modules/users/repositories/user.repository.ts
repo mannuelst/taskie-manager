@@ -9,4 +9,5 @@ export abstract class UserRepository {
     data: UsernameAndEmail,
   ): Promise<UserCreatedDTO | null>;
   abstract save(data: CreateUserDTO): Promise<UserCreatedDTO>;
+  // abstract findByEmail()
 }
