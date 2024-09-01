@@ -11,3 +11,5 @@ export type UserCreatedDTO = CreateUserDTO & {
   id: string;
   createdAt: Date;
 };
+
+export type SignInDTO = Pick<CreateUserDTO, 'password' | 'username'>;
