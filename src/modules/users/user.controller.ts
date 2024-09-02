@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Request,
   UploadedFile,
   UseGuards,
@@ -17,11 +18,13 @@ import {
 } from './schemas/create-user.schema';
 import { CreateUserUseCase } from './use-cases/create-user';
 import { ProfileUserUseCase } from './use-cases/profile-user.usecase';
+import { UploadAvatarUserUseCase } from './use-cases/upload-avatar-user.usecase';
 
 @Controller('/users')
 export class UserController {
   constructor(
     private readonly createUserUseCase: CreateUserUseCase,
+    private readonly uploadAvatarUserUseCase: UploadAvatarUserUseCase,
     private readonly profileUserUseCase: ProfileUserUseCase,
   ) { }
 
@@ -42,12 +45,17 @@ export class UserController {
     this.profileUserUseCase.execute(req.user.sub);
   }
 
-  @Post('/avatar')
+  @Put('/avatar')
   @UseGuards(AuthGuard) // get userId from token
   @UseInterceptors(FileInterceptor('file'))
   async uploadAvatar(@Request() req, @UploadedFile() file: FileDTO) {
-    console.log('avatar');
-    console.log(file);
-    this.profileUserUseCase.execute(req.user.sub);
+    // console.log('avatar');
+    // console.log(file);
+    const result = await this.uploadAvatarUserUseCase.execute({
+      idUser: req.user.sub,
+      file,
+    });
+    //this.profileUserUseCase.execute(req.user.sub);
+    return result;
   }
 }

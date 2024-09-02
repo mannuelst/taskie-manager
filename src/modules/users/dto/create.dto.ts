@@ -16,9 +16,14 @@ export type SignInDTO = Pick<CreateUserDTO, 'password' | 'username'>;
 
 export type FileDTO = {
   fieldname: string;
-  originlname: string;
+  originalname: string;
   encoding: string;
   mimetype: string;
   buffer: Buffer;
   size: number;
+};
+
+export type AvatarDTO = {
+  idUser: string;
+  file: FileDTO;
 };
