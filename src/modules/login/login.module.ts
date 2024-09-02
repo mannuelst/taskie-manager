@@ -11,8 +11,8 @@ import { SignInUseCase } from './use-cases/sign-in';
   imports: [
     JwtModule.register({
       global: true,
-      secret: '218198dfiufnsie238ucv',
-      signOptions: { expiresIn: '60s' },
+      secret: 'ZELVY',
+      signOptions: { expiresIn: '120s' },
     }),
   ],
   controllers: [LoginController],

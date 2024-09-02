@@ -31,4 +31,10 @@ export class UserPrismaRepository implements UserRepository {
       where: { username },
     });
   }
+
+  async findById(id: string): Promise<UserCreatedDTO | null> {
+    return await this.prisma.user.findUnique({
+      where: { id },
+    });
+  }
 }
