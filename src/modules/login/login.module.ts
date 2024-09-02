@@ -12,7 +12,7 @@ import { SignInUseCase } from './use-cases/sign-in';
     JwtModule.register({
       global: true,
       secret: 'ZELVY',
-      signOptions: { expiresIn: '120s' },
+      signOptions: { expiresIn: '300s' },
     }),
   ],
   controllers: [LoginController],
