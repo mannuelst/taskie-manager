@@ -13,3 +13,12 @@ export type UserCreatedDTO = CreateUserDTO & {
 };
 
 export type SignInDTO = Pick<CreateUserDTO, 'password' | 'username'>;
+
+export type FileDTO = {
+  fieldname: string;
+  originlname: string;
+  encoding: string;
+  mimetype: string;
+  buffer: Buffer;
+  size: number;
+};

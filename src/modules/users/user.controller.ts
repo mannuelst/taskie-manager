@@ -4,9 +4,13 @@ import {
   Get,
   Post,
   Request,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from 'src/infra/providers/auth-guard.provider';
+import { FileDTO } from './dto/create.dto';
 import {
   CreateUserResponseSchemaDTO,
   CreateUserSchemaDT0,
@@ -34,7 +38,16 @@ export class UserController {
   @Get('/profile')
   @UseGuards(AuthGuard)
   async profile(@Request() req) {
-    console.log('sub', typeof req.user.sub);
+    // console.log('sub', typeof req.user.sub);
+    this.profileUserUseCase.execute(req.user.sub);
+  }
+
+  @Post('/avatar')
+  @UseGuards(AuthGuard) // get userId from token
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadAvatar(@Request() req, @UploadedFile() file: FileDTO) {
+    console.log('avatar');
+    console.log(file);
     this.profileUserUseCase.execute(req.user.sub);
   }
 }
