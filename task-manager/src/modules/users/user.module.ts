@@ -4,7 +4,7 @@ import { Storage } from 'src/infra/providers/storage/storage';
 import { SupabaseStorage } from 'src/infra/providers/storage/supabase.storage';
 import { UserPrismaRepository } from './repositories/prisma/user.prisma.repository';
 import { UserRepository } from './repositories/user.repository';
-import { CreateUserUseCase } from './use-cases/create-user';
+import { CreateUserUseCase } from './use-cases/create-user.usecase';
 import { ProfileUserUseCase } from './use-cases/profile-user.usecase';
 import { UploadAvatarUserUseCase } from './use-cases/upload-avatar-user.usecase';
 import { UserController } from './user.controller';

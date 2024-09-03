@@ -16,7 +16,7 @@ import {
   CreateUserResponseSchemaDTO,
   CreateUserSchemaDT0,
 } from './schemas/create-user.schema';
-import { CreateUserUseCase } from './use-cases/create-user';
+import { CreateUserUseCase } from './use-cases/create-user.usecase';
 import { ProfileUserUseCase } from './use-cases/profile-user.usecase';
 import { UploadAvatarUserUseCase } from './use-cases/upload-avatar-user.usecase';
 
