@@ -48,6 +48,17 @@ export class TaskUserPrismaRepository implements TaskUserRepository {
           },
         ],
       },
+      include: {
+        task: {
+          select: {
+            startAt: true,
+            endAt: true,
+            title: true,
+            description: true,
+          },
+        },
+        user: true,
+      },
     });
     return allTasks;
   }
