@@ -5,14 +5,15 @@ export type CreateUserDTO = {
   name: string;
 };
 
-export type UsernameAndEmail = Pick<CreateUserDTO, 'email' | 'username'>;
-
-export type UserCreatedDTO = CreateUserDTO & {
+export type UserCreatedDTO = {
   id: string;
   createdAt: Date;
-};
+} & CreateUserDTO;
 
-export type SignInDTO = Pick<CreateUserDTO, 'password' | 'username'>;
+export type UsernameAndEmail = {
+  email: string;
+  username: string;
+};
 
 export type FileDTO = {
   fieldname: string;

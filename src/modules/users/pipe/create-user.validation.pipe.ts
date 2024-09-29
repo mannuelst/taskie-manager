@@ -5,20 +5,26 @@ import {
   Injectable,
   PipeTransform,
 } from '@nestjs/common';
-import { CreateUserDTO } from '../dto/create.dto';
+import { CreateUserDTO } from '../dto/user.dto';
 
 @Injectable()
 export class CreateUserValidationPipe implements PipeTransform {
   transform(
-    { name, username, password, email }: CreateUserDTO,
+    { name, email, username, password }: CreateUserDTO,
     metadata: ArgumentMetadata,
   ) {
     if (!name || !email || !username || !password) {
       throw new HttpException(
-        'All fields are required!',
+        `[name, email, username, password] is required`,
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-    return { name, email, password, username };
+
+    return {
+      name,
+      email,
+      username,
+      password,
+    };
   }
 }

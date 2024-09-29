@@ -1,16 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { FileDTO } from 'src/modules/users/dto/create.dto';
-import { Storage } from './storage';
+import { FileDTO } from '../../../modules/users/dto/user.dto';
+import { IStorage } from './storage';
+import { SupabaseClient, createClient } from '@supabase/supabase-js';
+
 @Injectable()
-export class SupabaseStorage implements Storage {
+export class SupabaseStorage implements IStorage {
   private client: SupabaseClient;
+
   constructor() {
     this.client = createClient(
       process.env.SUPABASE_URL ?? '',
       process.env.SUPABASE_KEY ?? '',
     );
   }
+
   async upload(file: FileDTO, folder: string): Promise<any> {
     const data = await this.client.storage
       .from(process.env.SUPABASE_BUCKET ?? '')

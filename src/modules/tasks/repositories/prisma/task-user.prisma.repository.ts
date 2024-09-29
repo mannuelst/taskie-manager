@@ -1,40 +1,43 @@
-import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infra/database/prisma.service';
-import { endOfDay, startOfDay } from 'src/utils/date';
 import {
+  TaskUserNotificationDTO,
   TaskUserRequestDTO,
   TaskUserResponseDTO,
 } from '../../dto/task-user.dto';
-import { TaskUserRepository } from '../task-user.repository';
+import { ITaskUserRepository } from '../task-user.repository';
+import { Injectable } from '@nestjs/common';
+import { startOfDay, endOfDay } from '../../../../infra/utils/date';
 
 @Injectable()
-export class TaskUserPrismaRepository implements TaskUserRepository {
-  constructor(private prisma: PrismaService) { }
+export class TaskUserPrismaRepository implements ITaskUserRepository {
+  constructor(private prisma: PrismaService) {}
+
   async save(data: TaskUserRequestDTO): Promise<TaskUserResponseDTO> {
-    const { description, endAt, startAt, title, priority, status, userId } =
-      data;
     return this.prisma.taskUser.create({
       data: {
         task: {
           create: {
-            description,
-            endAt,
-            startAt,
-            title,
-            priority,
-            status,
+            description: data.description,
+            endAt: data.endAt,
+            startAt: data.startAt,
+            title: data.title,
+            priority: data.priority,
+            status: data.status,
           },
         },
         user: {
           connect: {
-            id: userId,
+            id: data.userId,
           },
         },
       },
     });
   }
 
-  async findAllStartDay(): Promise<any> {
+  // 16-06-2023 00:00:00
+  // 16-06-2023 23:59:59
+
+  async findAllStartDay(): Promise<TaskUserNotificationDTO[] | null> {
     const allTasks = await this.prisma.taskUser.findMany({
       where: {
         AND: [

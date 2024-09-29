@@ -1,18 +1,17 @@
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
-import { PrismaService } from 'src/infra/database/prisma.service';
-
-import { UserPrismaRepository } from '../users/repositories/prisma/user.prisma.repository';
-import { UserRepository } from '../users/repositories/user.repository';
 import { LoginController } from './login.controller';
-import { SignInUseCase } from './use-cases/sign-in';
+import { PrismaService } from 'src/infra/database/prisma.service';
+import { SignInUseCase } from './useCases/sign-in.usecase';
+import { JwtModule } from '@nestjs/jwt';
+import { IUserRepository } from '../users/repositories/user.repository';
+import { UserPrismaRepository } from '../users/repositories/prisma/user.prisma.repository';
 
 @Module({
   imports: [
     JwtModule.register({
       global: true,
-      secret: 'ZELVY',
-      signOptions: { expiresIn: '300s' },
+      secret: 'NESTJS_CURSO',
+      signOptions: { expiresIn: '60s' },
     }),
   ],
   controllers: [LoginController],
@@ -20,9 +19,9 @@ import { SignInUseCase } from './use-cases/sign-in';
     PrismaService,
     SignInUseCase,
     {
-      provide: UserRepository,
+      provide: IUserRepository,
       useClass: UserPrismaRepository,
     },
   ],
 })
-export class LoginModule { }
+export class LoginModule {}

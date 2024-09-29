@@ -1,14 +1,14 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { SignInDTO } from '../users/dto/create.dto';
-import { SignInUseCase } from './use-cases/sign-in';
+import { SignInDTO } from './dto/sign-in.dto';
+import { SignInUseCase } from './useCases/sign-in.usecase';
 
 @Controller()
 export class LoginController {
-  constructor(private signInUseCase: SignInUseCase) { }
+  constructor(private signInUseCase: SignInUseCase) {}
 
   @Post('/signIn')
-  async signIn(@Body() signinDTO: SignInDTO) {
-    const token = await this.signInUseCase.execute(signinDTO);
+  async signIn(@Body() signInDTO: SignInDTO) {
+    const token = await this.signInUseCase.execute(signInDTO);
     return token;
   }
 }

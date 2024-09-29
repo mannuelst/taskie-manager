@@ -1,15 +1,15 @@
-import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infra/database/prisma.service';
 import {
-  CreateUserDTO,
-  UserCreatedDTO,
   UsernameAndEmail,
-} from '../../dto/create.dto';
-import { UserRepository } from '../user.repository';
+  UserCreatedDTO,
+  CreateUserDTO,
+} from '../../dto/user.dto';
+import { IUserRepository } from '../user.repository';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class UserPrismaRepository implements UserRepository {
-  constructor(private prisma: PrismaService) { }
+export class UserPrismaRepository implements IUserRepository {
+  constructor(private prisma: PrismaService) {}
 
   async findByUsernameOrEmail(
     data: UsernameAndEmail,
@@ -20,23 +20,26 @@ export class UserPrismaRepository implements UserRepository {
       },
     });
   }
-
-  async save(data: CreateUserDTO): Promise<UserCreatedDTO | null> {
+  async save(data: CreateUserDTO): Promise<UserCreatedDTO> {
     return await this.prisma.user.create({
       data,
     });
   }
+
   async findByUsername(username: string): Promise<UserCreatedDTO | null> {
     return await this.prisma.user.findUnique({
-      where: { username },
+      where: {
+        username,
+      },
     });
   }
 
   async findById(id: string): Promise<UserCreatedDTO | null> {
-    return await this.prisma.user.findUnique({
+    return this.prisma.user.findUnique({
       where: { id },
     });
   }
+
   async uploadAvatar(id: string, path: string): Promise<void> {
     await this.prisma.user.update({
       data: {

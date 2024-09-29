@@ -9,32 +9,28 @@ import { Request } from 'express';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService) { }
+  constructor(private jwtServide: JwtService) {}
 
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFound(request);
+    const token = this.extractTokenFromHeader(request);
 
     if (!token) {
       throw new UnauthorizedException();
     }
 
     try {
-      //   console.log('TOKEN', token);
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: 'ZELVY',
+      const payload = await this.jwtServide.verifyAsync(token, {
+        secret: process.env.SECRET_JWT,
       });
-
-      console.log('PAYLOAD: ', payload);
       request['user'] = payload;
-    } catch (error) {
-      //  console.log(error);
+    } catch {
       throw new UnauthorizedException();
     }
     return true;
   }
 
-  private extractTokenFound(request: Request): string | undefined {
+  private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
   }
